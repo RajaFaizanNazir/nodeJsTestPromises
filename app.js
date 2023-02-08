@@ -2,6 +2,7 @@
 process.env.PORT = 5000;
 /**************************************** */
 const express = require("express");
+const CryptoJS = require("crypto-js");
 const bodyParser = require("body-parser");
 /**************************************** */
 // const transactionsRoutes = require("./routes/transactions-routes");
@@ -11,11 +12,21 @@ const app = express();
 /**************************************** */
 app.use(bodyParser.json());
 /**************************************** */
-// app.use("/api/history", transactionsRoutes);
+app.get("/api", async (req, res, next) => {
+  const message = { loggedUserID: 780 };
+  const secret = "someverylongSecret";
+  const encrypted = CryptoJS.AES.encrypt(
+    JSON.stringify(message),
+    secret
+  ).toString();
+  const decrypted = JSON.parse(
+    CryptoJS.AES.decrypt(encrypted, secret).toString(CryptoJS.enc.Utf8)
+  );
+  res.status(400).json({ encrypted: encrypted, decrypted: decrypted });
+});
 /**************************************** */
 app.use((req, res, next) => {
-  const error = new HttpError("Could not find this route", 404);
-  throw error;
+  res.status(400).json({ message: "can not find this route" });
 });
 /**************************************** */
 app.use((error, req, res, next) => {
