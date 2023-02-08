@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 /**************************************** */
 app.get("/api", async (req, res, next) => {
   const message = { loggedUserID: 780 };
-  const secret = "someverylongSecret";
+  const secret = "someVeryLongSecretKey";
   const encrypted = CryptoJS.AES.encrypt(
     JSON.stringify(message),
     secret
