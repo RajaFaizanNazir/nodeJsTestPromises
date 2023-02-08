@@ -13,7 +13,11 @@ const app = express();
 app.use(bodyParser.json());
 /**************************************** */
 app.get("/api", async (req, res, next) => {
-  const message = { loggedUserID: 780 };
+  const message = {
+    loggedUserId: 780,
+    userId: 780,
+    days: "1m",
+  };
   const secret = "someVeryLongSecretKey";
   const encrypted = CryptoJS.AES.encrypt(
     JSON.stringify(message),
